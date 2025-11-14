@@ -2,7 +2,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'my_new_project'
+name: 'QWT_ANALYTICS'
 version: '1.0.0'
 config-version: 2
 
@@ -35,8 +35,41 @@ clean-targets:         # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+#models:
+#  QWT_ANALYTICS:
+#    # Applies to all files under models/example/
+#    staging_dev:
+#      transient: false
+
+
+#models:
+#  database: QWT_TEST
+
+#data_tests:
+#  QWT_ANALYTICS:
+#    +store_failures_as: table
+
+vars:
+  v_division: 'South America'
+  dbt_dq_tool_schema: "{{env_var('DBT_AUDITING_SCHEMA', 'AUDITING_DEV')}}"
+  dq_tools_enable_store_test_results: True
+
+seeds:
+  schema: "{{env_var('DBT_LOOKUP_SCHEMA', 'LOOKUP_DEV')}}"
+
+# on-run-start: "grant select on table qwt_dev.auditing_dev.qwt_models_audit to role sysadmin;"
+# on-run-end: "revoke select on table qwt_dev.auditing_dev.qwt_models_audit from role sysadmin;"
+on-run-end:
+  - '{{ dq_tools.store_test_results(results) }}'
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      +materialized: table
+  +pre-hook:
+    - "insert into {{env_var('DBT_AUDITING_SCHEMA', 'AUDITING_DEV')}}.qwt_models_audit values ('{{this}}', current_timestamp(), null, null);"
+  +post-hook:
+    - "update {{env_var('DBT_AUDITING_SCHEMA', 'AUDITING_DEV')}}.qwt_models_audit set enddatetime = current_timestamp(), duration = datediff(seconds, startdatetime,current_timestamp()) where modelname='{{this}}'; "
+
+  dq_tools:
+    +schema: "{{env_var('DBT_AUDITING_SCHEMA', 'AUDITING_DEV')}}"
+  staging_dev:
+    +schema: "{{env_var('DBT_STAGING_SCHEMA', 'STAGING_DEV')}}"
+  transforming_dev:
+    +schema: "{{env_var('DBT_TRANSFORMING_SCHEMA', 'TRANSFORMING_DEV')}}"

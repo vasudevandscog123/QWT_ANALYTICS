@@ -1,0 +1,14 @@
+version: 2
+exposures:
+  - name: "rpt_sales_by_customer_date"
+    type: dashboard
+    maturity: high
+    url: "https://google.com"
+    description: provides summary of reports by customer date
+    depends_on:
+      - ref('fct_orders')
+      - ref('dim_customers')
+    owner: 
+      name: Vasu
+      email: vasu@test.com
+      

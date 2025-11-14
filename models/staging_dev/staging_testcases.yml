@@ -1,0 +1,44 @@
+version: 2
+models:
+  - name: stg_customers
+    config:
+      schema: "{{env_var('DBT_STAGING_SCHEMA', 'STAGING_DEV')}}"
+    description: "{{ doc('stg_customers_desc')}}"
+    columns:
+      - name: customerid
+        description: "{{ doc('stg_customers_customerid_desc')}}"
+        tests:
+          - unique
+          - not_null
+          - is_even
+
+  - name: stg_orders
+    config:
+      schema: "{{env_var('DBT_STAGING_SCHEMA', 'STAGING_DEV')}}"
+
+  - name: stg_products
+    config:
+      schema: "{{env_var('DBT_STAGING_SCHEMA', 'STAGING_DEV')}}"
+
+  - name: stg_orderdetails
+    description: Captures the details of all the orders with Key metrics
+    columns:
+      - name: orderid
+        description: Identifier of the Order
+        tests:
+          - not_null
+          - relationships:
+              field: orderid
+              to: ref('stg_orders')
+  - name: stg_shipments
+    description: Provides the Shipments data
+    columns:
+      - name: status
+        description: Status of the Shipment
+        tests:
+          - accepted_values:
+              values: ['returned', 'replaced', 'shipped']
+
+
+      
+      
