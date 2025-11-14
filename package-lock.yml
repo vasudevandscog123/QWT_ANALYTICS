@@ -1,0 +1,11 @@
+packages:
+  - name: dbt_date
+    package: godatadriven/dbt_date
+    version: 0.16.1
+  - name: dq_tools
+    package: infinitelambda/dq_tools
+    version: 1.8.0
+  - name: dbt_utils
+    package: dbt-labs/dbt_utils
+    version: 1.3.2
+sha1_hash: 0bddbd8bc8cc5a5e8a940df76f4bad697284f54b

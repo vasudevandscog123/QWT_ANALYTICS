@@ -1,0 +1,7 @@
+version: 2
+models:
+  - name: rpt_sales_by_customers_dates
+    config:
+      schema: "reporting_dev"
+      packages:
+        - "holidays" 
