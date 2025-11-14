@@ -1,4 +1,4 @@
-{{config(materialzed='view', schema='reporting_dev', pre_hook="use warehouse compute_wh;", post_hook="create or replace view qwt_dev.reporting_dev.rpt_sales_orders_by_customers_dates_TEST_POST_HOOK as select * from  reporting_dev.rpt_sales_orders_by_customers_dates;")}}
+{{config(materialzed='view', schema=env_var('DBT_REPORTING_SCHEMA', 'REPORTING_DEV'), pre_hook="use warehouse compute_wh;", post_hook="create or replace view env_var('DBT_QWT_DB', 'QWT_DEV').env_var('DBT_REPORTING_SCHEMA', 'REPORTING_DEV').rpt_sales_orders_by_customers_dates_TEST_POST_HOOK as select * from  reporting_dev.rpt_sales_orders_by_customers_dates;")}}
 
 
 with 

@@ -1,4 +1,4 @@
-{{config(materialized='view', schema='reporting_dev')}}
+{{config(materialized='view', schema=env_var('DBT_REPORTING_SCHEMA', 'REPORTING_DEV'))}}
 
 select c.companyname, c.contactname, c.city, c.country, c.divisionname,
 count(distinct o.orderid) as totalorders, sum(o.quantity) as totalquantity, sum(o.linesalesamount) as totalsales, avg(o.margin) as avgmargin
