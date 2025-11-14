@@ -3,7 +3,7 @@
     config
     (
 
-    target_database = 'qwt_dev',
+    target_database = env_var('DBT_QWT_DB', 'QWT_DEV'),
     target_schema =  env_var('DBT_SNAPSHOTS_SCHEMA', 'SNAPSHOTS_DEV') ,
     unique_key = ['orderid', 'lineno'],
     strategy = 'timestamp',
