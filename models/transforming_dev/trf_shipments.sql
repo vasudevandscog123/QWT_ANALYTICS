@@ -1,4 +1,4 @@
-{{config(materialized='table', schema=env_var('DBT_TRANSFORMING_SCHEMA', 'TRANSFORMING_DEV')}}
+{{ config(materialized='table', schema = env_var('DBT_TRANSFORMING_SCHEMA', 'TRANSFORMING_DEV')  ) }}
 select ship.orderid, ship.lineno, ship.shipmentdate, ship.status, lkp.companyname as shipmentcompany
 from
 {{ref("shipments_snapshot")}} as ship
