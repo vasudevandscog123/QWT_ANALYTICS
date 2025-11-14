@@ -8,3 +8,4 @@ seeds:
   - name: lkp_shippers
     config:
       schema: "{{env_var('DBT_LOOKUP_SCHEMA', 'LOOKUP_DEV')}}"
+
