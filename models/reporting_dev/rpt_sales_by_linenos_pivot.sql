@@ -1,4 +1,4 @@
-{{config(materialized='view', schema='reporting_dev')}}
+{{config(materialized='view', schema=env_var('DBT_REPORTING_SCHEMA', 'REPORTING_DEV'))}}
 
 {# array input
 {% set v_linenumbers = [1,2,3] %}
